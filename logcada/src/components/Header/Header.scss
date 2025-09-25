@@ -1,0 +1,26 @@
+.header{
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 16px 40px;
+  align-items: center;
+
+  .logos{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+
+    img {
+      height: auto;
+      max-width: 100px; 
+      object-fit: contain;
+    }
+  }
+
+  h1{
+    font-size: 32px;
+    margin: 0;
+  }
+  
+}

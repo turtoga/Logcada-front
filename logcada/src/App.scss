@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+ 
+h1, h2, h3, h4, h5, h6, a, label, button {
+  font-family: 'Roboto Slab', serif;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+}
+
+.topo{
+  position: absolute;
+  width: 100%;
+}
