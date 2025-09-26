@@ -13,7 +13,7 @@ function Login() {
         <Input type="email" placeholder="Email Institucional" />
         <Input type="password" placeholder="Senha" />
         <div className='center-div'>
-          <Button>Entrar</Button>
+          <Button type='normal'>Entrar</Button>
           <Link to='/redefinir'>Esqueceu a senha?</Link>
         </div>
         

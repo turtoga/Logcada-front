@@ -27,6 +27,11 @@ function Navbar() {
           >
             <li>Usuários</li>
           </NavLink>
+          <NavLink 
+            to='/' 
+          >
+            <li>Sair</li>
+          </NavLink>
         </div>
       </ul>
     </nav>

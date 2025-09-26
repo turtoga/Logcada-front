@@ -1,15 +1,16 @@
 import React from 'react'
+import"./TableItem.scss"
 
 interface TableItemProps {
-  item: Record<string, string|number>,
-  headers: string[],
+  item: Record<string, any>,
+  campos: string[],
 }
 
-function TableItem({item, headers}: TableItemProps) {
+function TableItem({item, campos}: TableItemProps) {
   return (
-    <div className='table-item'>
-      {headers.map((header, index) => (
-        <div key={index}>{item[header]}</div>
+    <div className='table-item' style={{ gridTemplateColumns: `repeat(${campos.length}, 1fr)` }}>
+      {campos.map((campo, index) => (
+        <div key={index}>{item[campo]}</div>
       ))}
     </div>
   )

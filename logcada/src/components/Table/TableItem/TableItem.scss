@@ -1,0 +1,11 @@
+.table-item {
+  display: grid;
+  align-items: center;
+  padding: 20px 32px;
+  border-bottom: 1px solid #858585;
+
+  &:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+}

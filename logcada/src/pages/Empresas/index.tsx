@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import Table from '../../components/Table'
+import"./Empresas.scss"
+import { formataData } from '../../util/Formatar'
 
-const headers = ["Nome", "Email", "Telefone", "Nome Fincionário", "Email Funcionário", "Atualizado"]
+const headers = ["Nome", "Email", "Telefone", "Nome Funcionário", "Email Funcionário", "Atualizado"]
+
+const campos = ["nomeEmpresa", "emailEmpresa", "telefoneEmpresa", "nomeFuncionario", "emailFuncionario", "edicao"]
 
 interface Funcionario {
   nome: string;
@@ -52,9 +56,16 @@ function Empresas() {
     }
   ]);
 
+  const itensTable = itens.map(empresa => ({
+    ...empresa,
+    edicao: formataData(empresa.ultimaEdicao),
+    nomeFuncionario: empresa.funcionarios[0]?.nome || "",
+    emailFuncionario: empresa.funcionarios[0]?.email || ""
+  }));
+
   return (
     <main className='empresas'>
-      <Table headers={headers} itens={itens}/>
+      <Table headers={headers} title={"Empresas"} itens={itensTable} campos={campos}/>
     </main>
   )
 }

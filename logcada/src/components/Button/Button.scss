@@ -1,13 +1,20 @@
-.button{
+.button {
   background-color: #B20000;
   border: none;
   color: #fff;
-  padding: 20px 100px;
   border-radius: 50px;
   cursor: pointer;
   font-size: 20px;
 
-  &:hover{
+  &:hover {
     background-color: #7c0303;
   }
+}
+
+.button.normal {
+  padding: 20px 100px;
+}
+
+.button.redondo {
+  padding: 18px 20px ;
 }
