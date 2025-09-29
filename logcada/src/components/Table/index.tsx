@@ -5,18 +5,21 @@ interface TableProps {
   title?: string,
   headers: string[],
   campos: string[],
-  itens?: Record<string, any>[];
+  itens?: Record<string, any>[],
+  onNovoClick?: () => void;
 }
 
-function Table({title, itens, headers, campos}: TableProps) {
+function Table({title, itens, headers, campos, onNovoClick}: TableProps) {
   return (
     <section className='table'>
       <div className='title'>
         <div className="linha">
           <h2>{title}</h2>
-          <div>
-            <p>+ Novo</p>
-          </div>
+          <button onClick={onNovoClick}>
+            <p>
+              + Novo
+            </p>
+          </button>
         </div>
         
         <img src={Decorator} alt='Decora título'/>
@@ -33,9 +36,6 @@ function Table({title, itens, headers, campos}: TableProps) {
           </div>
         ))}
       </div>
-
-      
-
     </section>
   )
 }

@@ -2,10 +2,22 @@ import React, { useState } from 'react'
 import Table from '../../components/Table'
 import"./Empresas.scss"
 import { formataData } from '../../util/Formatar'
+import NovoCard from '../../components/NovoCard'
 
 const headers = ["Nome", "Email", "Telefone", "Nome Funcionário", "Email Funcionário", "Atualizado"]
 
-const campos = ["nomeEmpresa", "emailEmpresa", "telefoneEmpresa", "nomeFuncionario", "emailFuncionario", "edicao"]
+const camposList = ["nomeEmpresa", "emailEmpresa", "telefoneEmpresa", "nomeFuncionario", "emailFuncionario", "edicao"]
+const camposFormularioEmpresa = [
+  { nome: "nomeEmpresa", label: "Nome da Empresa"},
+  { nome: "tipo", label: "Tipo" },
+  { nome: "emailEmpresa", label: "Email da Empresa", tipo:"email" },
+  { nome: "telefoneEmpresa", label: "Telefone da Empresa", tipo:"tel"},
+  { nome: "endereco", label:"Endereço" },
+  { nome:"cep", label:"CEP", tipo:"number" },
+  { nome: "site", label:"Site"}
+
+]
+
 
 interface Funcionario {
   nome: string;
@@ -56,6 +68,18 @@ function Empresas() {
     }
   ]);
 
+  const [mostrarNovo, setMostrarNovo] = useState(false)
+
+  const handleNovaEmpresa= (novoUsuario: Usuario) => {
+    setMostrarNovo(false);
+  };
+
+  const onNovoClick =() => {
+    setMostrarNovo(true)
+    console.log("click")
+  }
+
+
   const itensTable = itens.map(empresa => ({
     ...empresa,
     edicao: formataData(empresa.ultimaEdicao),
@@ -65,7 +89,18 @@ function Empresas() {
 
   return (
     <main className='empresas'>
-      <Table headers={headers} title={"Empresas"} itens={itensTable} campos={campos}/>
+      <Table headers={headers} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
+      {mostrarNovo && (
+        <div className="card-background">
+          <NovoCard
+            titulo="Nova Empresa"
+            campos={camposFormularioEmpresa}
+            onClose={() => setMostrarNovo(false)}
+            onSubmit={handleNovaEmpresa}
+          />
+        </div>
+        
+      )}
     </main>
   )
 }

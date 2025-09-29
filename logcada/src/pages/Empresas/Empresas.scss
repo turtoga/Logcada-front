@@ -1,5 +1,19 @@
-.empresas{
+.empresas {
   justify-content: center;
   align-items: center;
   display: flex;
+  position: relative;
+
+  .card-background {
+    position: fixed;
+    background-color: #0d0d0daa;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    z-index: 2;
+  }
 }

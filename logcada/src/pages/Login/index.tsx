@@ -10,8 +10,8 @@ function Login() {
       <h2>Login</h2>
 
       <form>
-        <Input type="email" placeholder="Email Institucional" />
-        <Input type="password" placeholder="Senha" />
+        <Input type="email" label="Email Institucional" />
+        <Input type="password" label="Senha" />
         <div className='center-div'>
           <Button type='normal'>Entrar</Button>
           <Link to='/redefinir'>Esqueceu a senha?</Link>
