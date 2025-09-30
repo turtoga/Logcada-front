@@ -1,0 +1,139 @@
+.novo-card {
+  background-color: #fff;
+  padding: 24px 40px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  
+  margin: 40px auto;
+  
+  
+
+  .card-content {
+    flex-direction: column;
+    gap: 20px;
+    padding-right: 10px;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    position: sticky;
+    
+    
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #888;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #e74c3c;
+      }
+    }
+  }
+
+  
+
+  form {
+    margin-top:12px;
+    max-height: 500px;
+    
+  overflow-y: auto; 
+  flex-wrap:nowrap;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+
+      &.duas-colunas {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .funcionario-section {
+      grid-column: span 2;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fafafa;
+
+      h4 {
+        margin-top: 8px;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-remover-funcionario{
+      background-color: #B20000;
+      border: none;
+      color: #fff;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 12px 16;
+      &:hover {
+         background-color: #7c0303;
+      }
+    }
+
+    .btn-adicionar {
+      background-color: #B20000;
+      border: none;
+      color: #fff;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 8px 0;
+      &:hover {
+         background-color: #7c0303;
+      }
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .novo-card {
+    padding: 20px;
+
+    form {
+      .form-grid.duas-colunas {
+        grid-template-columns: 1fr;
+      }
+
+      .funcionario-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

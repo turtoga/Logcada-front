@@ -6,10 +6,11 @@ interface TableProps {
   headers: string[],
   campos: string[],
   itens?: Record<string, any>[],
-  onNovoClick?: () => void;
+  onNovoClick?: () => void,
+  onItemClick?: (item: Record<string, any> ) => void;
 }
 
-function Table({title, itens, headers, campos, onNovoClick}: TableProps) {
+function Table({title, itens, headers, campos, onNovoClick, onItemClick}: TableProps) {
   return (
     <section className='table'>
       <div className='title'>
@@ -32,7 +33,7 @@ function Table({title, itens, headers, campos, onNovoClick}: TableProps) {
       <div className="itens">
         {itens?.map((item, index) => (
           <div className="bord" key={index}>
-            <TableItem item={item} campos={campos}/>            
+            <TableItem onClick={() => onItemClick?.(item)} item={item} campos={campos}/>            
           </div>
         ))}
       </div>

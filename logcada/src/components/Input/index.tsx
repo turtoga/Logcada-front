@@ -1,7 +1,7 @@
 import './Input.scss';
 
 interface InputProps {
-  type: string,
+  type?: string,
   placeholder?: string,
   name: string,
   value: string,

@@ -2,7 +2,6 @@
   background-color: #B20000;
   border: none;
   color: #fff;
-  border-radius: 50px;
   cursor: pointer;
   font-size: 20px;
 
@@ -11,10 +10,26 @@
   }
 }
 
+.button.small{
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.button.cinza {
+ background-color: #7e7e7e; 
+}
+
+.button.quadrado {
+  padding: 4px 6px;
+  border-radius: 10px;
+}
+
 .button.normal {
   padding: 20px 100px;
+  border-radius: 50px;
 }
 
 .button.redondo {
   padding: 18px 20px ;
+  border-radius: 50px;
 }

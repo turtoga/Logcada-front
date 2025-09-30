@@ -3,6 +3,8 @@ import Table from '../../components/Table'
 import"./Empresas.scss"
 import { formataData } from '../../util/Formatar'
 import NovoCard from '../../components/NovoCard'
+import DetalharCard from '../../components/DetalharCard'
+import EditarCard from '../../components/EditarCard'
 
 const headers = ["Nome", "Email", "Telefone", "Nome Funcionário", "Email Funcionário", "Atualizado"]
 
@@ -69,14 +71,16 @@ function Empresas() {
   ]);
 
   const [mostrarNovo, setMostrarNovo] = useState(false)
+  const [empresaSelecionada, setEmpresaSelecionada] = useState<Empresa | null>(null) 
+  const [empresaEditando, setEmpresaEditando] = useState<Empresa | null>(null);
 
-  const handleNovaEmpresa= (novoUsuario: Usuario) => {
+
+  const handleNovaEmpresa= (novaEmpresa: Empresa) => {
     setMostrarNovo(false);
   };
 
   const onNovoClick =() => {
     setMostrarNovo(true)
-    console.log("click")
   }
 
 
@@ -89,7 +93,7 @@ function Empresas() {
 
   return (
     <main className='empresas'>
-      <Table headers={headers} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
+      <Table headers={headers} onItemClick={(empresa) => setEmpresaSelecionada(empresa)} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
       {mostrarNovo && (
         <div className="card-background">
           <NovoCard
@@ -99,8 +103,41 @@ function Empresas() {
             onSubmit={handleNovaEmpresa}
           />
         </div>
-        
       )}
+      {empresaSelecionada && (
+        <div className="card-background">
+          <DetalharCard 
+            tipo='Empresa'
+            titulo="Detalhes da Empresa"
+            dados={empresaSelecionada}
+            funcionarios={empresaSelecionada.funcionarios}
+            onClose={() => setEmpresaSelecionada(null)}
+            onEdit={() => {
+              setEmpresaEditando(empresaSelecionada);
+              setEmpresaSelecionada(null); 
+            }}
+          />
+        </div>
+      )}
+      {empresaEditando && (
+        <div className="card-background">
+          <EditarCard
+            titulo="Editar Empresa"
+            dadosIniciais={empresaEditando}
+            campos={camposFormularioEmpresa}
+            onClose={() => setEmpresaEditando(null)}
+            onSubmit={(dadosAtualizados) => {
+              setItens(prev =>
+                prev.map(emp => emp.id === empresaEditando.id ? { ...emp, ...dadosAtualizados } : emp)
+              );
+              setEmpresaEditando(null);
+            }}
+          />
+        </div>
+     )}
+
+
+
     </main>
   )
 }
