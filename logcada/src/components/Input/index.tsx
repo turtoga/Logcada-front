@@ -3,9 +3,9 @@ import './Input.scss';
 interface InputProps {
   type?: string,
   placeholder?: string,
-  name: string,
-  value: string,
-  onChange:(e:React.ChangeEvent<HTMLInputElement>) => void,
+  name?: string,
+  value?: string,
+  onChange?:(e:React.ChangeEvent<HTMLInputElement>) => void,
   label?: string;
 }
 

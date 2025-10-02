@@ -5,6 +5,12 @@ import './NovoCard.scss'
 import Button from '../../components/Button'
 import RoleInput from '../../components/RoleInput'
 
+interface Campo {
+  nome: string;
+  label: string;
+  tipo?: string;
+}
+
 interface NovoCardProps  {
   campos: Campo[],
   titulo: string,
@@ -68,12 +74,10 @@ function NovoCard({campos,titulo,onClose,onSubmit, roleVe = false}:NovoCardProps
               <Input
                 key={campo.nome}
                 label={campo.label}
-                id={campo.nome}
                 name={campo.nome}
                 type={campo.tipo || 'text'}
                 value={dados[campo.nome] || ''}
                 onChange={handleChange}
-                required
               />
             ))}
 
@@ -134,7 +138,7 @@ function NovoCard({campos,titulo,onClose,onSubmit, roleVe = false}:NovoCardProps
           )}
 
           <div className="form-buttons">
-            <Button type="normal">Salvar</Button>
+            <Button tipo="normal">Salvar</Button>
           </div>
         </form>
       </div>

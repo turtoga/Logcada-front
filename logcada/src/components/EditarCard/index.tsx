@@ -4,6 +4,12 @@ import './EditarCard.scss'
 import Button from '../../components/Button'
 import RoleInput from '../../components/RoleInput'
 
+interface Campo {
+  nome: string;
+  label: string;
+  tipo?: string;
+}
+
 interface EditarCardProps {
   campos: Campo[],
   titulo: string,
@@ -147,7 +153,7 @@ function EditarCard({campos, titulo, dadosIniciais, onClose, onSubmit, roleVe = 
           )}
 
           <div className="form-buttons">
-            <Button type="normal">Salvar Alterações</Button>
+            <Button tipo="normal">Salvar Alterações</Button>
           </div>
         </form>
       </div>

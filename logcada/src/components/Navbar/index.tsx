@@ -1,7 +1,13 @@
+
 import './Navbar.scss'
 import { NavLink } from 'react-router-dom'
+import { useAuth } from '../../Context/Auth';
 
 function Navbar() {
+
+  const { token, role, logout } = useAuth();
+  
+
   return (
     <nav className='navbar'>
       <ul>
@@ -14,24 +20,32 @@ function Navbar() {
         </NavLink>
 
         <div className='menu-items'>
-          <NavLink 
-            to='/empresas' 
-            className={({ isActive }) => isActive ? 'active' : ''}
-          >
-            <li>Empresas</li>
-          </NavLink>
+          {role && (
+            <NavLink 
+              to='/empresas' 
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              <li>Empresas</li>
+            </NavLink>
+          )}
 
+        {role === 'ADMIN' && (
           <NavLink 
             to='/usuarios' 
             className={({ isActive }) => isActive ? 'active' : ''}
           >
             <li>Usuários</li>
           </NavLink>
-          <NavLink 
-            to='/' 
-          >
-            <li>Sair</li>
-          </NavLink>
+        )}
+
+          {token && (
+            <button
+              onClick={logout}
+              className="sair-button" 
+            >
+              <li>Sair</li>
+            </button>
+          )}
         </div>
       </ul>
     </nav>

@@ -2,12 +2,12 @@ import './DeletarCard.scss';
 import Button from '../Button';
 
 interface DeletarCardProps {
-  tipo: string;
+  type?: string;
   onCancel: () => void;
   onConfirm: () => void;
 }
 
-function DeletarCard({ tipo, onCancel, onConfirm }: DeletarCardProps) {
+function DeletarCard({ type, onCancel, onConfirm }: DeletarCardProps) {
   return (
     <section className="deletar-card">
       <div className="card-content">
@@ -16,14 +16,14 @@ function DeletarCard({ tipo, onCancel, onConfirm }: DeletarCardProps) {
         </div>
 
         <div className="detalhes">
-          <p>Tem certeza que deseja deletar este {tipo}?</p>
+          <p>Tem certeza que deseja deletar este {type}?</p>
         </div>
 
         <div className="form-buttons">
-          <Button type='small'  onClick={onConfirm}>
+          <Button tipo='small'  onClick={onConfirm}>
             Confirmar
           </Button>
-          <Button type='small' color='cinza' onClick={onCancel}>
+          <Button tipo='small' color='cinza' onClick={onCancel}>
             Cancelar
           </Button>
         </div>

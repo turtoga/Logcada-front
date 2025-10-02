@@ -43,14 +43,14 @@ function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }
           
           <div className='botoes-header'>
             <Button
-              type="quadrado"
+              tipo="quadrado"
               aria-label="Deletar"
               onClick={onDelete}
             >
               <img src={TrashIcon} alt="Deletar" className='icon-lixo'/>
             </Button>
             <Button
-              type="quadrado"
+              tipo="quadrado"
               aria-label="Editar"
               onClick={onEdit}
             >
@@ -58,7 +58,7 @@ function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }
             </Button>
 
           <Button
-            type="quadrado"
+            tipo="quadrado"
             aria-label="Fechar"
             onClick={onClose}
           >
@@ -89,7 +89,8 @@ function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }
                       {Object.entries(func).map(([chave, valor]) => (
                       
                       <div key={chave} className="detalhe-item">
-                        <strong>{formatarTitulo(chave)}:</strong> <span>{valor}</span>
+                        <strong>{formatarTitulo(chave)}:</strong> 
+                        <span>{valor}</span>
                       </div>
                     ))}
                     </div>
@@ -102,7 +103,7 @@ function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }
       </div>
       {deletarCard && 
         <div className='card-background'>
-          <DeletarCard tipo={tipo} onCancel={() => setDeletarCard(false)} onConfirm={() => {}} />
+          <DeletarCard type={tipo} onCancel={() => setDeletarCard(false)} onConfirm={() => {}} />
         </div>    
       }
     </section>

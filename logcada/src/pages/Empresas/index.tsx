@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Table from '../../components/Table'
 import"./Empresas.scss"
 import { formataData } from '../../util/Formatar'
 import NovoCard from '../../components/NovoCard'
 import DetalharCard from '../../components/DetalharCard'
 import EditarCard from '../../components/EditarCard'
+import api from '../../services/api'
 
 const headers = ["Nome", "Email", "Telefone", "Nome Funcionário", "Email Funcionário", "Atualizado"]
 
@@ -17,9 +18,7 @@ const camposFormularioEmpresa = [
   { nome: "endereco", label:"Endereço" },
   { nome:"cep", label:"CEP", tipo:"number" },
   { nome: "site", label:"Site"}
-
 ]
-
 
 interface Funcionario {
   nome: string;
@@ -38,42 +37,23 @@ interface Empresa {
 
 function Empresas() {
 
-  const [itens, setItens] = useState<Empresa[]>([
-    {
-      id: "1",
-      nomeEmpresa: "Acme Corp",
-      emailEmpresa: "contato@acme.com",
-      telefoneEmpresa: "11 99999-9999",
-      ultimaEdicao: "2025-09-25T12:34:56",
-      funcionarios: [
-        { nome: "João Silva", email: "joao@acme.com" },
-        { nome: "Maria Souza", email: "maria@acme.com" }
-      ]
-    },
-    {
-      id: "2",
-      nomeEmpresa: "BetaTech",
-      emailEmpresa: "suporte@betatech.com",
-      telefoneEmpresa: "21 98888-7777",
-      ultimaEdicao: "2025-09-24T09:00:00",
-      funcionarios: [
-        { nome: "Carlos Lima", email: "carlos@betatech.com" }
-      ]
-    },
-    {
-      id: "3",
-      nomeEmpresa: "Logix Ltda",
-      emailEmpresa: "admin@logix.com.br",
-      telefoneEmpresa: "31 97777-6666",
-      ultimaEdicao: "2025-09-23T15:20:00",
-      funcionarios: [] 
-    }
-  ]);
+  const [itens, setItens] = useState<Empresa[]>([]);
 
   const [mostrarNovo, setMostrarNovo] = useState(false)
   const [empresaSelecionada, setEmpresaSelecionada] = useState<Empresa | null>(null) 
   const [empresaEditando, setEmpresaEditando] = useState<Empresa | null>(null);
 
+  useEffect(() => {
+    async function fetchEmpresas() {
+      try {
+        const response = await api.get('/empresa');
+        setItens(response.data.content || []);
+      } catch (error) {
+        console.error('Erro ao carregar empresas', error);
+      }
+    }
+    fetchEmpresas();
+  }, []);
 
   const handleNovaEmpresa= (novaEmpresa: Empresa) => {
     setMostrarNovo(false);
