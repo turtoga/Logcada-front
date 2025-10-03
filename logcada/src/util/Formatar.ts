@@ -1,5 +1,7 @@
 
 export function formataData(data: string) {
+  if (!data) return "Sem data"; 
+
   const [date, tempo] = data.split("T") 
   const[ano, mes, dia] = date.split("-")
   const[hora, min, seg] = tempo.split(":")

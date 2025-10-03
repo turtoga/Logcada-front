@@ -5,6 +5,7 @@ import EditarCard from '../../components/EditarCard';
 import DetalharCard from '../../components/DetalharCard';
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
+import axios from 'axios'
 
 const headers = ["Nome Completo", "Email Institucional", "Tipo"]
 const camposList = ["nomeCompleto", "emailInstitucional", "tipo"]
@@ -41,12 +42,64 @@ function Usuarios() {
         console.error('Erro ao carregar usuários', error);
       }
     }
+    if (usuarioSelecionado === null) {
     fetchUsuarios();
-  }, []);
+    }
+  }, [usuarioSelecionado, usuarioEditando]);
 
 
-   const handleNovoUsuario = (novoUsuario: Usuario) => {
-    setMostrarNovo(false);
+   const handleNovoUsuario = async (dados: Record<string, string>) => {
+    const novoUsuario = {
+      nomeCompleto: dados.nomeCompleto || '',
+      emailInstitucional: dados.emailInstitucional || '',
+      senha: dados.senha || '',
+      tipo: dados.tipo || 'PADRAO'
+    };
+
+    try {
+      const response = await api.post('/user', novoUsuario);
+      setItens(prev => [...prev, response.data]);
+      alert("Usuário criado com sucesso");
+      setMostrarNovo(false); 
+    } catch (error) {
+      if(axios.isAxiosError(error)) {
+        if(error.response?.status === 400){
+          alert(error.response.data)
+        } else {
+          alert("Erro ao criar usuário")
+          setMostrarNovo(false);
+        }
+      } else {
+        alert("Erro ao criar usuário")
+        setMostrarNovo(false);
+      }
+    } 
+  };
+
+  const handleEditarUsuario = async (id: string, dadosAtualizados: Record<string, string>) => {
+    const editarUsuario = {
+      nomeCompleto: dadosAtualizados.nomeCompleto || '',
+      emailInstitucional: dadosAtualizados.emailInstitucional || '',
+      tipo: dadosAtualizados.role || 'PADRAO'
+    };
+    
+    try {
+      const response = await api.put(`/user/${id}`, editarUsuario);
+      
+      setUsuarioEditando(null);
+      alert("Usuário editado com sucesso");
+
+    } catch (error) {
+      if(axios.isAxiosError(error)) {
+        if(error.response?.status === 400){
+          alert(error.response.data)
+        } else {
+          alert("Erro ao editar usuário")
+        }
+      } else {
+        alert("Erro ao editar usuário")
+      }
+    }
   };
 
   const onNovoClick =() => {
@@ -59,7 +112,7 @@ function Usuarios() {
 
   return (
     <main className='usuarios'>
-      <Table onItemClick={(usuario) => setUsuarioSelecionado(usuario)} headers={headers} title={"Usuários"} itens={itensTable} campos={camposList} onNovoClick={onNovoClick}/>
+      <Table onItemClick={(usuario) => setUsuarioSelecionado(usuario as Usuario)} headers={headers} title={"Usuários"} itens={itensTable} campos={camposList} onNovoClick={onNovoClick}/>
       {mostrarNovo && (
         <div className="card-background">
           <NovoCard
@@ -94,12 +147,7 @@ function Usuarios() {
             dadosIniciais={usuarioEditando}
             campos={camposFormularioUsuario}
             onClose={() => setUsuarioEditando(null)}
-            onSubmit={(dadosAtualizados) => {
-              setItens(prev =>
-                prev.map(user => user.id === usuarioEditando.id ? { ...user, ...dadosAtualizados } : user)
-              );
-              setUsuarioEditando(null);
-            }}
+            onSubmit={handleEditarUsuario}
           />
         </div>
      )}

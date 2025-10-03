@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 interface AuthContextType {
   token: string | null;
   role: string | null;
+  sub?: string | null;
   login: (token: string) => void;
   logout: () => void;
 }
@@ -21,12 +22,14 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [role, setRole] = useState<string | null>(null);
+  const [sub, setSub] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
       const decoded: DecodedToken = jwtDecode(token);
       setRole(decoded.role);
+      setSub(decoded.sub);
     }
   }, [token]);
 
@@ -43,7 +46,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <AuthContext.Provider value={{ token, role, login, logout }}>
+    <AuthContext.Provider value={{ token, role, login, logout, sub }}>
       {children}
     </AuthContext.Provider>
   );

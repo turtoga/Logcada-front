@@ -3,6 +3,8 @@ import Input from '../../components/Input'
 import './EditarCard.scss'
 import Button from '../../components/Button'
 import RoleInput from '../../components/RoleInput'
+import CloseIcon from '../../assets/icon/closeIcon.png'
+import { useAuth } from '../../Context/Auth'
 
 interface Campo {
   nome: string;
@@ -15,13 +17,18 @@ interface EditarCardProps {
   titulo: string,
   dadosIniciais: Record<string, any>, 
   onClose: () => void,
-  onSubmit: (dados: Record<string, any>) => void,
+  onSubmit: (id: string, dados: Record<string, any>) => void,
   roleVe?: boolean
 }
+
+
 
 function EditarCard({campos, titulo, dadosIniciais, onClose, onSubmit, roleVe = false}: EditarCardProps) {
   const [dados, setDados] = useState<Record<string, string>>({});
   const [funcionarios, setFuncionarios] = useState<Record<string, string>[]>([]);
+  const [tipo, setTipo] = useState(dadosIniciais.tipo);
+
+    const { sub } = useAuth();
 
   useEffect(() => {
     const { funcionarios: funcs, ...resto } = dadosIniciais;
@@ -62,28 +69,30 @@ function EditarCard({campos, titulo, dadosIniciais, onClose, onSubmit, roleVe = 
     const dadosComFuncionarios = {
       ...dados,
       funcionarios: JSON.stringify(funcionarios),
+      tipo: roleVe ? tipo :""
     };
-    onSubmit(dadosComFuncionarios);
+    onSubmit(dadosIniciais.id, dadosComFuncionarios);
   }
+
 
   return (
     <section className="novo-card">
       <div className="card-content">
         <div className="card-header">
           <h2>{titulo}</h2>
-          <button
-            className="btn-close"
-            type="button"
+          <Button
+            tipo="quadrado"
             aria-label="Fechar"
+            type="button"
             onClick={onClose}
           >
-            &times;
-          </button>
+            <img src={CloseIcon} alt="Fechar" className='icon-close'/>
+          </Button>
         </div>
         <form onSubmit={handleSubmit}>
           <div className={`form-grid ${campos.length > 4 ? 'duas-colunas' : ''}`}>
             {campos
-            .filter(campo => campo.nome !== 'senha') 
+            .filter(campo => campo.nome !== 'senha' && campo.nome !== 'id')
             .map(campo => (
               <Input
                 key={campo.nome}
@@ -97,19 +106,19 @@ function EditarCard({campos, titulo, dadosIniciais, onClose, onSubmit, roleVe = 
             ))
           }
 
-            {roleVe && <RoleInput />}
+            {roleVe && sub !== dadosIniciais.emailInstitucional && <RoleInput value={tipo} onChange={(e) => setTipo(e.target.value)}/>}
 
             {funcionarios.map((func, index) => (
               <div key={index} className="funcionario-section">
                 <div className="funcionario-header">
-                  <button
+                  <Button
                     type="button"
-                    className="btn-remover-funcionario"
+                    tipo="quadrado"
                     onClick={() => removerFuncionario(index)}
                     aria-label={`Remover funcionário ${index + 1}`}
                   >
-                    &times;
-                  </button>
+                    <img src={CloseIcon} alt="Fechar" className='icon-close'/>
+                  </Button>
                   <h4>Funcionário {index + 1}</h4>
                 </div>
                 <Input

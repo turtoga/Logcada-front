@@ -4,6 +4,7 @@ import Input from '../../components/Input'
 import './NovoCard.scss'
 import Button from '../../components/Button'
 import RoleInput from '../../components/RoleInput'
+import CloseIcon from '../../assets/icon/closeIcon.png'
 
 interface Campo {
   nome: string;
@@ -22,6 +23,7 @@ interface NovoCardProps  {
 function NovoCard({campos,titulo,onClose,onSubmit, roleVe = false}:NovoCardProps) {
   const [dados, setDados] = useState<Record<string, string>>({});
   const [funcionarios, setFuncionarios] = useState<Record<string, string>[]>([]);
+  const [role, setRole] = useState('PADRAO');
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -50,6 +52,7 @@ function NovoCard({campos,titulo,onClose,onSubmit, roleVe = false}:NovoCardProps
     const dadosComFuncionarios = {
       ...dados,
       funcionarios: JSON.stringify(funcionarios),
+      role:roleVe? tipo : ""
     };
     onSubmit(dadosComFuncionarios);
   }
@@ -59,14 +62,13 @@ function NovoCard({campos,titulo,onClose,onSubmit, roleVe = false}:NovoCardProps
       <div className="card-content">
         <div className="card-header">
           <h2>{titulo}</h2>
-          <button
-            className="btn-close"
-            type="button"
+          <Button
+            tipo="quadrado"
             aria-label="Fechar"
             onClick={onClose}
           >
-            &times;
-          </button>
+            <img src={CloseIcon} alt="Fechar" className='icon-close'/>
+          </Button>
         </div>
         <form onSubmit={handleSubmit}>
           <div className={`form-grid ${campos.length > 4 ? 'duas-colunas' : ''}`}>
@@ -81,7 +83,7 @@ function NovoCard({campos,titulo,onClose,onSubmit, roleVe = false}:NovoCardProps
               />
             ))}
 
-            {roleVe && <RoleInput />}
+            {roleVe && <RoleInput value={role} onChange={(e) => setRole(e.target.value)} />}
 
             {funcionarios.map((func, index) => (
               <div key={index} className="funcionario-section">
