@@ -34,6 +34,7 @@ interface Empresa {
   telefoneEmpresa: string;
   ultimaEdicao: string; 
   funcionarios: Funcionario[];
+  dataAdicionado: string;
 }
 
 
@@ -49,7 +50,7 @@ const {sub} = useAuth();
   useEffect(() => {
     async function fetchEmpresas() {
       try {
-        const response = await api.get('/empresa');
+        await api.get('/empresa');
         setItens(response.data.content || []);
       } catch (error) {
         console.error('Erro ao carregar empresas', error);
@@ -149,12 +150,12 @@ const {sub} = useAuth();
     ultimaEdicao: formataData(empresa.ultimaEdicao),
     dataAdicionado: formataData(empresa.dataAdicionado),
     nomeFuncionario: empresa.funcionarios[0]?.nome || "N/A",
-    emailFuncionario: empresa.funcionarios[0]?.emailFuncionario || "N/A"
+    emailFuncionario: empresa.funcionarios[0]?.email || "N/A"
   }));
 
   return (
     <main className='empresas'>
-      <Table headers={headers} onItemClick={(empresa) => setEmpresaSelecionada(empresa)} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
+      <Table headers={headers} onItemClick={(empresa) => setEmpresaSelecionada(dados as Empresa)} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
       {mostrarNovo && (
         <div className="card-background">
           <NovoCard
