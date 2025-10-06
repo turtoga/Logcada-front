@@ -51,8 +51,8 @@ function NovoCard({campos,titulo,onClose,onSubmit, roleVe = false}:NovoCardProps
     e.preventDefault();
     const dadosComFuncionarios = {
       ...dados,
-      funcionarios: JSON.stringify(funcionarios),
-      role:roleVe? tipo : ""
+      ...(funcionarios ? { funcionarios: JSON.stringify(funcionarios) } : {}),
+      ...(roleVe ? { tipo: role } : {tipo: dados.tipo})
     };
     onSubmit(dadosComFuncionarios);
   }

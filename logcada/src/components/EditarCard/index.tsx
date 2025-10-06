@@ -25,7 +25,7 @@ interface EditarCardProps {
 
 function EditarCard({campos, titulo, dadosIniciais, onClose, onSubmit, roleVe = false}: EditarCardProps) {
   const [dados, setDados] = useState<Record<string, string>>({});
-  const [funcionarios, setFuncionarios] = useState<Record<string, string>[]>([]);
+  const [funcionarios, setFuncionarios] = useState<Record<string, any>[]>([]);
   const [tipo, setTipo] = useState(dadosIniciais.tipo);
 
     const { sub } = useAuth();
@@ -61,16 +61,26 @@ function EditarCard({campos, titulo, dadosIniciais, onClose, onSubmit, roleVe = 
   }
 
   function removerFuncionario(index: number) {
-    setFuncionarios(prev => prev.filter((_, i) => i !== index));
-  }
+  setFuncionarios(prev => {
+    const novos = [...prev];
+    novos[index] = {
+      ...novos[index],
+      ativo: false,
+    };
+    return novos;
+  });
+}
+
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    console.log(dados);
     const dadosComFuncionarios = {
       ...dados,
-      funcionarios: JSON.stringify(funcionarios),
-      tipo: roleVe ? tipo :""
+      ...(funcionarios ? { funcionarios: JSON.stringify(funcionarios) } : {}),
+      ...(roleVe ? { tipo: tipo } : {tipo: dados.tipo})
     };
+    console.log(dadosComFuncionarios);
     onSubmit(dadosIniciais.id, dadosComFuncionarios);
   }
 
@@ -108,7 +118,7 @@ function EditarCard({campos, titulo, dadosIniciais, onClose, onSubmit, roleVe = 
 
             {roleVe && sub !== dadosIniciais.emailInstitucional && <RoleInput value={tipo} onChange={(e) => setTipo(e.target.value)}/>}
 
-            {funcionarios.map((func, index) => (
+            {funcionarios.filter(func => func.ativo !== false).map((func, index) => (
               <div key={index} className="funcionario-section">
                 <div className="funcionario-header">
                   <Button
