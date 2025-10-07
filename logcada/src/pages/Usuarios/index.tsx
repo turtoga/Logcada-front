@@ -85,7 +85,7 @@ function Usuarios() {
     
     try {
       const response = await api.put(`/user/${id}`, editarUsuario);
-      
+      setItens(prev => [...prev, response.data]);
       setUsuarioEditando(null);
       alert("Usuário editado com sucesso");
 

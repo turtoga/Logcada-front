@@ -81,6 +81,7 @@ const {sub} = useAuth();
 
     try {
       const response = await api.put(`/empresa/${id}`, empresaEditada);
+      setItens(prev => prev.map(item => item.id === id ? response.data : item));
       alert("Empresa editada com sucesso!");
       setEmpresaEditando(null);
     } catch (error) {
