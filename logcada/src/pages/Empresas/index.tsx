@@ -50,7 +50,7 @@ const {sub} = useAuth();
   useEffect(() => {
     async function fetchEmpresas() {
       try {
-        await api.get('/empresa');
+        const response = await api.get('/empresa');
         setItens(response.data.content || []);
       } catch (error) {
         console.error('Erro ao carregar empresas', error);
@@ -155,7 +155,7 @@ const {sub} = useAuth();
 
   return (
     <main className='empresas'>
-      <Table headers={headers} onItemClick={(empresa) => setEmpresaSelecionada(dados as Empresa)} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
+      <Table headers={headers} onItemClick={(empresa) => setEmpresaSelecionada(empresa as Empresa)} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
       {mostrarNovo && (
         <div className="card-background">
           <NovoCard
