@@ -10,6 +10,7 @@ import Button from './components/Button'
 import Seta from  './assets/icon/arrowIcon.svg'
 import { useEffect, useState } from 'react'
 import ProtectedRoute from './components/ProtectedRoute'
+import NovaSenha from './pages/NovaSenha'
 
 function App() {
   const [showToTop, setShowToTop] = useState(false);
@@ -51,6 +52,7 @@ function App() {
           <Route path="/empresas" element={<Empresas />} />
         </Route>
 
+        <Route path="/redefinir-senha" element={<NovaSenha />} />
         <Route path="/" element={<Login />} />
         <Route path="/redefinir" element={<Redefinir />} />
         <Route path="*" element={<Login />} />

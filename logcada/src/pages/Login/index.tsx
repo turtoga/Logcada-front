@@ -49,8 +49,11 @@ function Login() {
       <h2>Login</h2>
 
       <form onSubmit={handleLogin}>
-        <Input value={login} onChange={(e) => setLogin(e.target.value)} type="email" label="Email Institucional" />
+        <div className='input-separator'>
+          <Input value={login} onChange={(e) => setLogin(e.target.value)} type="email" label="Email Institucional" />
         <Input value={senha} onChange={(e) => setSenha(e.target.value)} type="password" label="Senha" />
+        </div>
+        
         <div className='center-div'>
           <Button type='submit' tipo='normal'>Entrar</Button>
           <Link to='/redefinir'>Esqueceu a senha?</Link>
