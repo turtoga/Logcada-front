@@ -40,8 +40,6 @@ function App() {
         </Button>
         </div>
       )}
-      
-      
 
       <Routes>
         <Route element={<ProtectedRoute allowedRoles={['ADMIN']}/>}>
