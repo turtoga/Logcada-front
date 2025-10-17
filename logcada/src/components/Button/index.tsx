@@ -7,11 +7,12 @@ interface ButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>,
   color?: "cinza"
   type?: "button" | "submit" | "reset"; 
+  disabled?: boolean
 }
 
-function Button({children, tipo, onClick, color, type}: ButtonProps) {
+function Button({disabled,children, tipo, onClick, color, type}: ButtonProps) {
   return (
-    <button className={`button ${tipo} ${color}`} onClick={onClick} type={type}>
+    <button disabled={disabled} className={`button ${tipo} ${color}`} onClick={onClick} type={type}>
       {children}
     </button>
   )

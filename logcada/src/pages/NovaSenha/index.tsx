@@ -26,7 +26,7 @@ function NovaSenha() {
         }
 
         try{
-            await api.post(`/redefinir-senha/${token}`, {
+            await api.post(`/api/redefinir-senha/${token}`, {
                 senha
             })
 

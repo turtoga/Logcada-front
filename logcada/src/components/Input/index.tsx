@@ -7,9 +7,10 @@ interface InputProps {
   value?: string,
   onChange?:(e:React.ChangeEvent<HTMLInputElement>) => void,
   label?: string;
+  disabled?:boolean
 }
 
-function Input({ type, name, value, label, onChange, placeholder }: InputProps) {
+function Input({disabled ,type, name, value, label, onChange, placeholder }: InputProps) {
   return (
     <div className='input'>
       <label className='label'>{label}</label>
@@ -20,6 +21,7 @@ function Input({ type, name, value, label, onChange, placeholder }: InputProps) 
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        disabled={disabled}
       />
     </div>
   )
