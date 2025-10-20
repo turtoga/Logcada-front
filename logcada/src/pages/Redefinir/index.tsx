@@ -30,7 +30,7 @@ function Redefinir() {
     alert("Enviando e-mail de redefinição...");
 
     try {
-      await api.post(`/api/redefinir`, { emailInstitucional: email });
+      await api.post(`/api/solicitar-redefinir`, { emailInstitucional: email });
       alert("E-mail de redefinição enviado com sucesso!");
     } catch (error) {
       if (axios.isAxiosError(error)) {
