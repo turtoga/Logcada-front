@@ -156,7 +156,7 @@ const {sub} = useAuth();
 
   return (
     <main className='empresas'>
-      <Table headers={headers} onItemClick={(empresa) => setEmpresaSelecionada(empresa as Empresa)} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
+      <Table headers={headers} planilha comunicacao onItemClick={(empresa) => setEmpresaSelecionada(empresa as Empresa)} title={"Empresas"} itens={itensTable} campos={camposList}  onNovoClick={onNovoClick}/>
       {mostrarNovo && (
         <div className="card-background">
           <NovoCard

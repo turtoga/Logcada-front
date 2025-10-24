@@ -1,6 +1,12 @@
 .table{
   width: 90%;
   padding: 20px;
+
+  .acoes-botoes{
+    display: flex;
+    gap: 10px;
+  }
+
   .title{
     h2 {
       margin: 0;
