@@ -6,13 +6,15 @@ import { useEffect, useState } from 'react'
 import api from '../../services/api'
 import axios from 'axios'
 import { useAuth } from '../../Context/Auth'
+import type { DecodedToken } from '../../Context/AuthContext'
+import { jwtDecode } from 'jwt-decode'
 
 function Login() {
 
   const[login,setLogin] = useState("");
   const[senha,setSenha] = useState("");
   const navigate = useNavigate();
-  const { login: loginContext , token} = useAuth(); 
+  const { login: loginContext, token, logout } = useAuth();
 
 
 
@@ -36,12 +38,21 @@ function Login() {
     }
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     if (token) {
-      loginContext(token);
-      navigate('/empresas');
+      try {
+        const decoded: DecodedToken = jwtDecode(token);
+        const now = Date.now() / 1000;
+        if (decoded.exp < now) {
+          logout();
+        } else {
+          navigate('/empresas');
+        }
+      } catch (err) {
+        logout();
+      }
     }
-  }, [])
+  }, [token]);
 
   return (
     <main className='login'>

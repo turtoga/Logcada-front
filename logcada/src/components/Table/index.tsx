@@ -96,7 +96,7 @@ function Table({title, itens, headers, campos, onNovoClick, onItemClick, planilh
       </div>
       {comunicarStatus && 
         <div className='card-background'>
-          <ComunicarCard/>
+          <ComunicarCard onClose={() => setComunicarStatus(false)}/>
         </div>    
       }
     </section>

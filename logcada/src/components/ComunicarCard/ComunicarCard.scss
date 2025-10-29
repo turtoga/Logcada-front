@@ -9,9 +9,69 @@
     
     margin: 40px auto;
 
+    .icon-close{
+    max-height: 34px;
+    max-width: 34px;
+  }
+
+  .spacer-in{
+    margin-bottom: 16px;
+  }
+
+  .form-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    position: sticky;
+    
+    
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #888;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #e74c3c;
+      }
+    }
+  }
+
     .card-content {
+        display: flex;        
         flex-direction: column;
         gap: 20px;
         padding-right: 10px;
     }
+
+    .ql-container {
+        min-height: 200px; 
+        }
+
+        .ql-toolbar {
+        border-radius: 10px 10px 0 0;
+        }
+
+        .ql-container.ql-snow {
+        border-radius: 0 0 10px 10px;
+        }
+
 }

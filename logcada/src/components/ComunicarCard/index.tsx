@@ -1,13 +1,36 @@
 import { useState } from "react";
 import "./ComunicarCard.scss";
 import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+import Button from "../Button";
+import CloseIcon from '../../assets/icon/closeIcon.png';
+import api from "../../services/api";
+import Input from "../Input";
 
-const ComunicarCard = () => {
-  const [emailContent, setEmailContent] = useState("");
+interface ComunicarCardProps {
+  onClose: () => void;
+}
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+const ComunicarCard = ({ onClose }: ComunicarCardProps) => {
+  const [titulo, setTitulo] = useState("");
+  const [recado, setRecado] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Conteúdo HTML do email:", emailContent);
+
+    try {
+      alert("As mensagnes estão sendo enviadas. Isso pode levar alguns minutos.");
+      await api.post("/comunicar", {
+        titulo,
+        recado
+      });
+
+      
+      onClose();
+    } catch (error) {
+      console.error("Erro ao enviar comunicação:", error);
+      alert("Erro ao enviar. Tente novamente.");
+    }
   };
 
   const modules = {
@@ -16,48 +39,56 @@ const ComunicarCard = () => {
       ["bold", "italic", "underline", "strike"],
       [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
-      ["clean"],
     ],
   };
 
   const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "list",
-    "bullet",
-    "link",
-    "image",
-  ];
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "list",
+  "link",
+  "image",
+];
+
 
   return (
     <section className="comunicar-card">
       <div className="card-content">
+        <div className="card-header">
+          <h2>Canal de Comunicação (Email)</h2>
+          <Button tipo="quadrado" aria-label="Fechar" onClick={onClose}>
+            <img src={CloseIcon} alt="Fechar" className="icon-close" />
+          </Button>
+        </div>
+
         <form onSubmit={handleSubmit}>
-          <h2>Escreva o conteúdo do email</h2>
+          <div className="spacer-in">
+            <Input
+            label="Título do Email"
+            type="text"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+          />
+          </div>
+          
 
           <ReactQuill
-            value={emailContent}
-            onChange={setEmailContent}
+            value={recado}
+            onChange={setRecado}
             modules={modules}
             formats={formats}
             placeholder="Escreva aqui o conteúdo do seu email..."
           />
 
-          <button type="submit" className="submit-btn">
-            Enviar
-          </button>
+          <div className="form-buttons">
+            <Button type="submit" tipo="normal">
+              Enviar para todos
+            </Button>
+          </div>
         </form>
-
-        <div className="preview">
-          <h3>Prévia do email:</h3>
-          <div
-            className="preview-content"
-            dangerouslySetInnerHTML={{ __html: emailContent }}
-          />
-        </div>
       </div>
     </section>
   );
