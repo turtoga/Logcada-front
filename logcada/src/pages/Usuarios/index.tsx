@@ -33,6 +33,18 @@ function Usuarios() {
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<Usuario | null>(null)
   const [usuarioEditando, setUsuarioEditando] = useState<Usuario | null>(null)
   
+   const handleDeletarEmpresa = async (user: Usuario) => {
+    try {
+      await api.delete(`/user/${user.id}`);
+      alert("Empresa deletada com sucesso!");
+      setItens(prev => prev.filter(item => item.id !== user.id));
+      setUsuarioSelecionado(null);
+    } catch (error) {
+      console.error("Erro ao deletar empresa:", error);
+      alert("Erro ao deletar empresa");
+    }
+  };
+
   useEffect(() => {
     async function fetchUsuarios() {
       try {
@@ -49,32 +61,57 @@ function Usuarios() {
 
 
    const handleNovoUsuario = async (dados: Record<string, string>) => {
-    const novoUsuario = {
-      nomeCompleto: dados.nomeCompleto || '',
-      emailInstitucional: dados.emailInstitucional || '',
-      senha: dados.senha || '',
-      tipo: dados.tipo || 'PADRAO'
-    };
-
-    try {
-      const response = await api.post('/user', novoUsuario);
-      setItens(prev => [...prev, response.data]);
-      alert("Usuário criado com sucesso");
-      setMostrarNovo(false); 
-    } catch (error) {
-      if(axios.isAxiosError(error)) {
-        if(error.response?.status === 400){
-          alert(error.response.data)
-        } else {
-          alert("Erro ao criar usuário")
-          setMostrarNovo(false);
-        }
-      } else {
-        alert("Erro ao criar usuário")
-        setMostrarNovo(false);
-      }
-    } 
+  
+  const camposObrigatorios = {
+    nomeCompleto: dados.nomeCompleto,
+    emailInstitucional: dados.emailInstitucional,
+    senha: dados.senha,
+    tipo: dados.tipo
   };
+
+  const nomesAmigaveis: Record<string, string> = {
+    nomeCompleto: "Nome Completo",
+    emailInstitucional: "Email Institucional",
+    senha: "Senha",
+    tipo: "Tipo de Usuário"
+  };
+
+  const camposFaltando = Object.entries(camposObrigatorios)
+    .filter(([_, valor]) => !valor || valor.trim() === "")
+    .map(([chave]) => nomesAmigaveis[chave] || chave);
+
+  if (camposFaltando.length > 0) {
+    alert(`Preencha os campos obrigatórios: ${camposFaltando.join(", ")}`);
+    return; 
+  }
+
+  const novoUsuario = {
+    nomeCompleto: dados.nomeCompleto.trim(),
+    emailInstitucional: dados.emailInstitucional.trim(),
+    senha: dados.senha,
+    tipo: dados.tipo || 'PADRAO'
+  };
+
+  try {
+    const response = await api.post('/user', novoUsuario);
+    setItens(prev => [...prev, response.data]);
+    alert("Usuário criado com sucesso!");
+    setMostrarNovo(false);
+  } catch (error) {
+    console.error('Erro ao criar usuário:', error);
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 400) {
+        alert(error.response.data);
+      } else {
+        alert("Erro ao criar usuário");
+      }
+    } else {
+      alert("Erro inesperado ao criar usuário");
+    }
+    setMostrarNovo(false);
+  }
+};
+
 
   const handleEditarUsuario = async (id: string, dadosAtualizados: Record<string, string>) => {
     const editarUsuario = {
@@ -135,6 +172,7 @@ function Usuarios() {
               setUsuarioEditando(usuarioSelecionado);
               setUsuarioSelecionado(null); 
             }}
+            DeletarItem={()=> handleDeletarEmpresa}
           />
         </div>
       )}

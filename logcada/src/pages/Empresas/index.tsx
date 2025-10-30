@@ -60,6 +60,19 @@ const {sub} = useAuth();
   }, [empresaSelecionada, empresaEditando]);
 
 
+    const handleDeletarEmpresa = async (empresa: Empresa) => {
+    try {
+      await api.delete(`/empresa/${empresa.id}`);
+      alert("Empresa deletada com sucesso!");
+      setItens(prev => prev.filter(item => item.id !== empresa.id));
+      setEmpresaSelecionada(null);
+    } catch (error) {
+      console.error("Erro ao deletar empresa:", error);
+      alert("Erro ao deletar empresa");
+    }
+  };
+
+
   const handleEditarEmpresa = async (id: string, dadosAtualizados: Record<string, string>) => {
   
 
@@ -99,45 +112,68 @@ const {sub} = useAuth();
 
 
   const handleNovaEmpresa = async (dados: Record<string, string>) => {
-    try {
-      const funcionarios = dados.funcionarios
-        ? JSON.parse(dados.funcionarios)
-        : [];
-
-      console.log(dados.tipo)
-
-      const novaEmpresa = {
-        emailCriador: sub,
-        nomeEmpresa: dados.nomeEmpresa || '',
-        tipo: dados.tipo || '',
-        emailEmpresa: dados.emailEmpresa || '',
-        telefoneEmpresa: dados.telefoneEmpresa || '',
-        endereco: dados.endereco || '',
-        cep: dados.cep || '',
-        site: dados.site || '',
-        funcionarios: funcionarios
-      };
-
-      const response = await api.post('/empresa', novaEmpresa);
-      setItens(prev => [...prev, response.data]);
-      alert("Empresa criada com sucesso!");
-      setMostrarNovo(false);
-    } catch (error) {
-      console.error('Erro ao criar empresa:', error);
-
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 400) {
-          alert(error.response.data);
-        } else {
-          alert("Erro ao criar empresa");
-        }
-      } else {
-        alert("Erro inesperado ao criar empresa");
-      }
-
-      setMostrarNovo(false);
-    }
+  const camposObrigatorios = {
+    nomeEmpresa: dados.nomeEmpresa,
+    emailEmpresa: dados.emailEmpresa,
+    telefoneEmpresa: dados.telefoneEmpresa,
+    endereco: dados.endereco
   };
+
+  const nomesAmigaveis: Record<string, string> = {
+  nomeEmpresa: "Nome da Empresa",
+  emailEmpresa: "Email da Empresa",
+  telefoneEmpresa: "Telefone da Empresa",
+  endereco: "Endereço"
+};
+
+const camposFaltando = Object.entries(camposObrigatorios)
+  .filter(([_, valor]) => !valor || valor.trim() === "")
+  .map(([chave]) => nomesAmigaveis[chave] || chave);
+
+if (camposFaltando.length > 0) {
+  alert(`Preencha os campos obrigatórios: ${camposFaltando.join(", ")}`);
+  return; 
+}
+
+  try {
+    const funcionarios = dados.funcionarios
+      ? JSON.parse(dados.funcionarios)
+      : [];
+
+    const novaEmpresa = {
+      emailCriador: sub,
+      nomeEmpresa: dados.nomeEmpresa || '',
+      tipo: dados.tipo || '',
+      emailEmpresa: dados.emailEmpresa || '',
+      telefoneEmpresa: dados.telefoneEmpresa || '',
+      endereco: dados.endereco || '',
+      cep: dados.cep || '',
+      site: dados.site || '',
+      funcionarios: funcionarios
+    };
+
+    const response = await api.post('/empresa', novaEmpresa);
+    setItens(prev => [...prev, response.data]);
+    alert("Empresa criada com sucesso!");
+    setMostrarNovo(false);
+
+  } catch (error) {
+    console.error('Erro ao criar empresa:', error);
+
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 400) {
+        alert(error.response.data);
+      } else {
+        alert("Erro ao criar empresa");
+      }
+    } else {
+      alert("Erro inesperado ao criar empresa");
+    }
+
+    setMostrarNovo(false);
+  }
+};
+
 
 
 
@@ -179,6 +215,7 @@ const {sub} = useAuth();
               setEmpresaEditando(empresaSelecionada);
               setEmpresaSelecionada(null); 
             }}
+            DeletarItem={() => handleDeletarEmpresa(empresaSelecionada)}
           />
         </div>
       )}

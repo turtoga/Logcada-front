@@ -23,6 +23,7 @@ interface DetalharCardProps {
   onClose: () => void;
   onEdit?: () => void; 
   tipo?: string;
+  DeletarItem?: () => void
 }
 
 function formatarTitulo(campo: string) {
@@ -31,7 +32,14 @@ function formatarTitulo(campo: string) {
   return formatado.charAt(0).toUpperCase() + formatado.slice(1);
 }
 
-function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }: DetalharCardProps) {
+function exibirValor(valor: any) {
+  if (valor === null || valor === undefined || valor === '') {
+    return 'N/A';
+  }
+  return String(valor);
+}
+
+function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit, DeletarItem }: DetalharCardProps) {
   const [deletarCard, setDeletarCard] = useState(false);
 
   const { sub } = useAuth();
@@ -40,19 +48,7 @@ function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }
     setDeletarCard(true);
   }
 
-  const deletarItem = async () => {
-    try {
-    const endpoint = tipo === 'Usuário' ? 'user' : 'empresa';
-    await api.delete(`/${endpoint}/${dados.id}`);
-    alert("Item deletado com sucesso");
-    onClose();
-    } catch (error) {
-      alert("Erro ao deletar item");
-      console.error(error);
-    } finally {
-      setDeletarCard(false);
-    }
-  }
+  
   
   return (
     <section className="detalhar-card">
@@ -96,7 +92,7 @@ function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }
             if (chave === "funcionarios" || chave === "nomeFuncionario" || chave === "emailFuncionario") return null;
             return (
               <div key={chave} className="detalhe-item">
-                <strong>{formatarTitulo(chave)}:</strong> <span>{String(valor)}</span>
+                <strong>{formatarTitulo(chave)}:</strong> <span>{exibirValor(valor)}</span>
               </div>
             );
           })}
@@ -113,7 +109,7 @@ function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }
                       
                       <div key={chave} className="detalhe-item">
                         <strong>{formatarTitulo(chave)}:</strong> 
-                        <span>{valor}</span>
+                        <span>{exibirValor(valor)}</span>
                       </div>
                     ))}
                     </div>
@@ -126,7 +122,7 @@ function DetalharCard({ titulo, tipo,dados, funcionarios = [], onClose, onEdit }
       </div>
       {deletarCard && 
         <div className='card-background'>
-          <DeletarCard type={tipo} onCancel={() => setDeletarCard(false)} onConfirm={deletarItem} />
+          <DeletarCard type={tipo} onCancel={() => setDeletarCard(false)} onConfirm={()=> DeletarItem && DeletarItem()} />
         </div>    
       }
     </section>
