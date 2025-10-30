@@ -5,6 +5,7 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import ComunicarCard from "../ComunicarCard";
 import { useState } from "react";
+import Button from "../Button";
 interface TableProps {
   title?: string,
   headers: string[],
@@ -50,6 +51,7 @@ function Table({title, itens, headers, campos, onNovoClick, onItemClick, planilh
     setComunicarStatus(true);
   }
 
+  const semItens = !itens || itens.length === 0;
 
   return (
     <section className='table'>
@@ -82,18 +84,36 @@ function Table({title, itens, headers, campos, onNovoClick, onItemClick, planilh
         
         <img src={Decorator} alt='Decora título'/>
       </div>
-      <div className="cabecalho" style={{ gridTemplateColumns: `repeat(${headers.length}, 1fr)` }}>
-        {headers.map((header , index) => (
-          <div key={index}>{header}</div>
-        ))}
-      </div>
-      <div className="itens">
-        {itens?.map((item, index) => (
-          <div className="bord" key={index}>
-            <TableItem onClick={() => onItemClick?.(item)} item={item} campos={campos}/>            
+      
+      {semItens ? (
+        <div className="empty-card">
+          <p>Nenhum item encontrado</p>
+          <Button tipo='redondo' onClick={onNovoClick}>Adicionar novo</Button>
+        </div>
+      ) : (
+        <>
+          <div
+            className="cabecalho"
+            style={{ gridTemplateColumns: `repeat(${headers.length}, 1fr)` }}
+          >
+            {headers.map((header, index) => (
+              <div key={index}>{header}</div>
+            ))}
           </div>
-        ))}
-      </div>
+          <div className="itens">
+            {itens!.map((item, index) => (
+              <div className="bord" key={index}>
+                <TableItem
+                  onClick={() => onItemClick?.(item)}
+                  item={item}
+                  campos={campos}
+                />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+      
       {comunicarStatus && 
         <div className='card-background'>
           <ComunicarCard onClose={() => setComunicarStatus(false)}/>
