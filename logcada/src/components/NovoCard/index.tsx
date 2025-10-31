@@ -59,7 +59,7 @@ function NovoCard({campos,titulo,onClose,onSubmit, roleVe = false}:NovoCardProps
 
   return (
     <section className="novo-card">
-      <div className="card-content">
+      <div className="card-content-alert">
         <div className="card-header">
           <h2>{titulo}</h2>
           <Button
