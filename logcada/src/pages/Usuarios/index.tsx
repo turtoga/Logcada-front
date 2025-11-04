@@ -89,7 +89,7 @@ function Usuarios() {
     nomeCompleto: dados.nomeCompleto.trim(),
     emailInstitucional: dados.emailInstitucional.trim(),
     senha: dados.senha,
-    tipo: dados.tipo || 'PADRAO'
+    tipo: dados.tipo 
   };
 
   try {
@@ -117,7 +117,7 @@ function Usuarios() {
     const editarUsuario = {
       nomeCompleto: dadosAtualizados.nomeCompleto || '',
       emailInstitucional: dadosAtualizados.emailInstitucional || '',
-      tipo: dadosAtualizados.role || 'PADRAO'
+      tipo: dadosAtualizados.role 
     };
     
     try {
