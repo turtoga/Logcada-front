@@ -117,7 +117,7 @@ function Usuarios() {
     const editarUsuario = {
       nomeCompleto: dadosAtualizados.nomeCompleto || '',
       emailInstitucional: dadosAtualizados.emailInstitucional || '',
-      tipo: dadosAtualizados.role 
+      tipo: dadosAtualizados.tipo
     };
     
     try {
