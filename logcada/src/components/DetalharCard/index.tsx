@@ -5,7 +5,6 @@ import PencilIcon from '../../assets/icon/pencilIcon.png'
 import { useState } from 'react'
 import DeletarCard from '../DeletarCard'
 import CloseIcon from '../../assets/icon/closeIcon.png'
-import api from '../../services/api'
 import { useAuth } from '../../Context/Auth'
 
 interface Funcionario {
